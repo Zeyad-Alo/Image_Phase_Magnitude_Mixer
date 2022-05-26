@@ -34,20 +34,10 @@ class MainWindow(QtWidgets.QMainWindow):
         pygame.mixer.set_num_channels(64)
 
         # initialize arrays and variables
+        
 
-        self.music_signal = MusicSignal()
-        self.piano_instrument = Piano()
-        self.drums_instrument = Drums()
-        self.guitar_instrument = Guitar()
-        self.toggle_play = 0
-        self.toggle_apply = 0
-        self.pressed_key = ''
-        self.current_tab_index = 0
         # initialize points to app
-        self.pointsToAppend = 0
-        interface.create_piano_layout(self)
         interface.init_connectors(self)
-        create_spectrogram_figure(self)
 
 
 
