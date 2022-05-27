@@ -36,6 +36,8 @@ class Image():
 
     def process_image(self):
         self.fftdata = rfft(self.data)
+
+        # TODO: is this correct?
         self.fftfreq = rfftfreq(self.data.size, 1 / 44100)
         self.fftreal = np.real(self.fftdata)
         self.fftimag = np.imag(self.fftdata)
@@ -43,34 +45,33 @@ class Image():
         self.fftphase = np.angle(self.fftdata)
 
         # TODO: check if this is correct
-        self.uniform_phase = np.unwrap(self.fftphase)
-        self.uniform_magnitude = self.fftmag / self.fftmag.max()
+        self.uniform_phase = np.multiply(self.fftmag, np.exp(1j))
+        self.uniform_magnitude = np.multiply(1, np.exp(self.fftphase))
 
     def get_real(self):
-        return self.data.real
+        return self.fftreal
 
     def get_imag(self):
-        return self.data.imag
+        return self.fftimag
 
     def get_fft(self):
         return self.fftdata
 
     def get_fftfreq(self):
-        # return rfftfreq(self.data.size, 1 / 44100)
-        pass
+        return self.fftfreq
 
     def get_uniform_phase(self):
-        pass
+        return self.uniform_phase
 
     def get_uniform_magnitude(self):
-        pass
+        return self.uniform_magnitude
 
     def get_data(self):
         return self.data
 
 
 @dataclass
-class ImageWorker():
+class ImageConfiguration():
     image: Image
     selected_feature: str
     selected_feature_index: int
@@ -111,19 +112,21 @@ class ImageWorker():
         internaly weighs images based on the strength_percent'''
 
         if(self.selected_feature == "Phase"):
-            image = self.image.get_phase_image()
+            image = self.image.get_phase()
         elif(self.selected_feature == "Magnitude"):
-            image = self.image.get_magnitude_image()
+            image = self.image.get_magnitude()
         elif(self.selected_feature == "Uniform_Phase"):
-            image = self.image.get_uniform_phase_image()
+            image = self.image.get_uniform_phase()
         elif(self.selected_feature == "Uniform_Magnitude"):
-            image = self.image.get_uniform_magnitude_image()
+            image = self.image.get_uniform_magnitude()
         elif(self.selected_feature == "Real"):
-            image = self.image.get_real_image()
+            image = self.image.get_real()
         elif(self.selected_feature == "Imaginary"):
-            image = self.image.get_imaginary_image()
+            image = self.image.get_imag()
         else:
             raise Exception("Invalid Feature")
+
+        # TODO: convert from FFT coefficients to image if not already done
 
         weighted_image = image.data * self.strength_percent / 100
 
@@ -133,7 +136,7 @@ class ImageWorker():
 class ImageMixer():
     def __init__(self, image_1=Image(), image_2=Image()) -> None:
         self.input_images = [image_1, image_2]
-        self.selected_images = [ImageWorker(), ImageWorker()]
+        self.selected_images = [ImageConfiguration(), ImageConfiguration()]
         self.mixed_image = Image()
 
     def reset_selection(self):
