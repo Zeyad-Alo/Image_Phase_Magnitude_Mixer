@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>833</width>
-    <height>600</height>
+    <width>850</width>
+    <height>566</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -126,26 +126,6 @@ QComboBox QAbstractItemView
                 </item>
                </widget>
               </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="image1_widget">
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(0, 0, 0);</string>
-                </property>
-                <property name="pixmap">
-                 <pixmap>cat.png</pixmap>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="image1_component_widget">
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(0, 0, 0);</string>
-                </property>
-                <property name="pixmap">
-                 <pixmap>cat.png</pixmap>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="0">
                <widget class="QPushButton" name="insert_image1_pushButton">
                 <property name="styleSheet">
@@ -171,6 +151,44 @@ QPushButton:pressed {
                 <property name="icon">
                  <iconset resource="icons/resources.qrc">
                   <normaloff>:/icons/Open-256.png</normaloff>:/icons/Open-256.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="image1_component_widget">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="pixmap">
+                 <pixmap>cat.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="image1_widget">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="pixmap">
+                 <pixmap>cat.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -251,26 +269,6 @@ QComboBox QAbstractItemView
                 </item>
                </widget>
               </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="image2_widget">
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(0, 0, 0);</string>
-                </property>
-                <property name="pixmap">
-                 <pixmap>cat.png</pixmap>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="image2_component_widget">
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(0, 0, 0);</string>
-                </property>
-                <property name="pixmap">
-                 <pixmap>cat.png</pixmap>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="0">
                <widget class="QPushButton" name="insert_image2_pushButton">
                 <property name="styleSheet">
@@ -299,6 +297,44 @@ QPushButton:pressed {
                 </property>
                </widget>
               </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="image2_component_widget">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="pixmap">
+                 <pixmap>cat.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="image2_widget">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="pixmap">
+                 <pixmap>cat.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
@@ -313,7 +349,7 @@ QPushButton:pressed {
             <widget class="QGroupBox" name="groupBox_3">
              <property name="maximumSize">
               <size>
-               <width>600</width>
+               <width>650</width>
                <height>16777215</height>
               </size>
              </property>
@@ -870,7 +906,7 @@ QComboBox QAbstractItemView
             <widget class="QGroupBox" name="groupBox_5">
              <property name="maximumSize">
               <size>
-               <width>600</width>
+               <width>650</width>
                <height>16777215</height>
               </size>
              </property>
@@ -906,17 +942,26 @@ QGroupBox::title  {
                    <string notr="true">background-color: transparent;</string>
                   </property>
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Output 1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Output 1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QLabel" name="output1_widget">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(0, 0, 0);</string>
                   </property>
                   <property name="pixmap">
                    <pixmap>cat.png</pixmap>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -936,17 +981,26 @@ QGroupBox::title  {
                    <string notr="true">background-color: transparent;</string>
                   </property>
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Output 2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Output 2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QLabel" name="output2_widget">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(0, 0, 0);</string>
                   </property>
                   <property name="pixmap">
                    <pixmap>cat.png</pixmap>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -982,7 +1036,7 @@ QGroupBox::title  {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>833</width>
+     <width>850</width>
      <height>21</height>
     </rect>
    </property>
