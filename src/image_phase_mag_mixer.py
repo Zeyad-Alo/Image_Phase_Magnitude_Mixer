@@ -2,7 +2,7 @@
 
 from PyQt5 import QtGui, QtWidgets, uic, QtCore
 from PyQt5.QtWidgets import QTabWidget
-from modules import interface, resource
+# from modules import resource
 import numpy as np
 from modules.utility import print_debug, print_log
 import sys
@@ -15,7 +15,7 @@ class MainWindow(QtWidgets.QMainWindow):
         ''' Main window constructor'''
 
         super(MainWindow, self).__init__(*args, **kwargs)
-        uic.loadUi('./resources/music_ws_mainwindow.ui', self)
+        uic.loadUi('./resources/MainWindow.ui', self)
 
         # set the title and icon
         self.setWindowIcon(QtGui.QIcon('./resources/icons/icon.png'))
@@ -23,7 +23,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # initialize arrays and variables
 
-        interface.init_connectors(self)
+        # interface.init_connectors(self)
         print_debug("Connectors Initialized")
 
 

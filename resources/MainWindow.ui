@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>830</width>
+    <width>833</width>
     <height>600</height>
    </rect>
   </property>
@@ -94,7 +94,7 @@ QComboBox::drop-down
 
 QComboBox::down-arrow, QSpinBox::down-arrow, QTimeEdit::down-arrow, QDateEdit::down-arrow
 {
-     image: url(:/newPrefix/Arrowhead-nottop-256.png);
+     image: url(:/icons/Arrowhead-nottop-256.png);
      width: 7px;
      height: 6px;
 }
@@ -127,16 +127,22 @@ QComboBox QAbstractItemView
                </widget>
               </item>
               <item row="1" column="0">
-               <widget class="QWidget" name="image1_widget" native="true">
+               <widget class="QLabel" name="image1_widget">
                 <property name="styleSheet">
                  <string notr="true">background-color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="pixmap">
+                 <pixmap>cat.png</pixmap>
                 </property>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="PlotWidget" name="image1_component_widget" native="true">
+               <widget class="QLabel" name="image1_component_widget">
                 <property name="styleSheet">
                  <string notr="true">background-color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="pixmap">
+                 <pixmap>cat.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -163,8 +169,8 @@ QPushButton:pressed {
                  <string>Insert Image</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../source/repos/mo-gaafar/Image_Phase_Magnitude_Mixer/resources/icons/resources.qrc">
-                  <normaloff>:/newPrefix/Open-256.png</normaloff>:/newPrefix/Open-256.png</iconset>
+                 <iconset resource="icons/resources.qrc">
+                  <normaloff>:/icons/Open-256.png</normaloff>:/icons/Open-256.png</iconset>
                 </property>
                </widget>
               </item>
@@ -213,7 +219,7 @@ QComboBox::drop-down
 
 QComboBox::down-arrow, QSpinBox::down-arrow, QTimeEdit::down-arrow, QDateEdit::down-arrow
 {
-     image: url(:/newPrefix/Arrowhead-nottop-256.png);
+     image: url(:/icons/Arrowhead-nottop-256.png);
      width: 7px;
      height: 6px;
 }
@@ -246,16 +252,22 @@ QComboBox QAbstractItemView
                </widget>
               </item>
               <item row="1" column="0">
-               <widget class="QWidget" name="image2_widget" native="true">
+               <widget class="QLabel" name="image2_widget">
                 <property name="styleSheet">
                  <string notr="true">background-color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="pixmap">
+                 <pixmap>cat.png</pixmap>
                 </property>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="PlotWidget" name="image2_component_widget" native="true">
+               <widget class="QLabel" name="image2_component_widget">
                 <property name="styleSheet">
                  <string notr="true">background-color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="pixmap">
+                 <pixmap>cat.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -282,8 +294,8 @@ QPushButton:pressed {
                  <string>Insert Image</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../source/repos/mo-gaafar/Image_Phase_Magnitude_Mixer/resources/icons/resources.qrc">
-                  <normaloff>:/newPrefix/Open-256.png</normaloff>:/newPrefix/Open-256.png</iconset>
+                 <iconset resource="icons/resources.qrc">
+                  <normaloff>:/icons/Open-256.png</normaloff>:/icons/Open-256.png</iconset>
                 </property>
                </widget>
               </item>
@@ -376,7 +388,7 @@ QComboBox::drop-down
 
 QComboBox::down-arrow, QSpinBox::down-arrow, QTimeEdit::down-arrow, QDateEdit::down-arrow
 {
-     image: url(:/newPrefix/Arrowhead-nottop-256.png);
+     image: url(:/icons/Arrowhead-nottop-256.png);
      width: 7px;
      height: 6px;
 }
@@ -455,7 +467,7 @@ QComboBox::drop-down
 
 QComboBox::down-arrow, QSpinBox::down-arrow, QTimeEdit::down-arrow, QDateEdit::down-arrow
 {
-     image: url(:/newPrefix/Arrowhead-nottop-256.png);
+     image: url(:/icons/Arrowhead-nottop-256.png);
      width: 7px;
      height: 6px;
 }
@@ -590,7 +602,7 @@ QComboBox::drop-down
 
 QComboBox::down-arrow, QSpinBox::down-arrow, QTimeEdit::down-arrow, QDateEdit::down-arrow
 {
-     image: url(:/newPrefix/Arrowhead-nottop-256.png);
+     image: url(:/icons/Arrowhead-nottop-256.png);
      width: 7px;
      height: 6px;
 }
@@ -680,7 +692,7 @@ QComboBox::drop-down
 
 QComboBox::down-arrow, QSpinBox::down-arrow, QTimeEdit::down-arrow, QDateEdit::down-arrow
 {
-     image: url(:/newPrefix/Arrowhead-nottop-256.png);
+     image: url(:/icons/Arrowhead-nottop-256.png);
      width: 7px;
      height: 6px;
 }
@@ -815,7 +827,7 @@ QComboBox::drop-down
 
 QComboBox::down-arrow, QSpinBox::down-arrow, QTimeEdit::down-arrow, QDateEdit::down-arrow
 {
-     image: url(:/newPrefix/Arrowhead-nottop-256.png);
+     image: url(:/icons/Arrowhead-nottop-256.png);
      width: 7px;
      height: 6px;
 }
@@ -899,9 +911,12 @@ QGroupBox::title  {
                  </widget>
                 </item>
                 <item>
-                 <widget class="QWidget" name="output1_widget" native="true">
+                 <widget class="QLabel" name="output1_widget">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(0, 0, 0);</string>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap>cat.png</pixmap>
                   </property>
                  </widget>
                 </item>
@@ -926,9 +941,12 @@ QGroupBox::title  {
                  </widget>
                 </item>
                 <item>
-                 <widget class="QWidget" name="output2_widget" native="true">
+                 <widget class="QLabel" name="output2_widget">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(0, 0, 0);</string>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap>cat.png</pixmap>
                   </property>
                  </widget>
                 </item>
@@ -964,23 +982,15 @@ QGroupBox::title  {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>830</width>
+     <width>833</width>
      <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>PlotWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">pyqtgraph</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources>
-  <include location="../source/repos/mo-gaafar/Image_Phase_Magnitude_Mixer/resources/icons/resources.qrc"/>
+  <include location="icons/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
