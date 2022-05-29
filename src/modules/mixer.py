@@ -4,10 +4,7 @@ from dataclasses import dataclass
 from scipy.fft import rfftfreq, rfft, irfft
 import numpy as np
 from modules.utility import *
-from modules import spectrogram as spectro
 import PyQt5.QtCore
-import pyqtgraph as pg
-import pygame
 from PyQt5.QtWidgets import QMessageBox
 
 
