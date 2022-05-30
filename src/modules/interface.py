@@ -1,12 +1,19 @@
 
 from PyQt5.QtWidgets import QTabWidget, QAction, QPushButton, QSlider, QComboBox, QLCDNumber, QMessageBox
 from PyQt5.QtGui import *
-import openfile
+from modules import openfile
 # interface globals
 CreatorSelectedIndex = 0
 ''' Sould be connected to the combobox on change'''
 ToggleSecondary = True
 ''' If true then visible'''
+
+
+def update_display(self, display_keys=[]):
+
+    for display in 
+
+    pass
 
 
 def init_connectors(self):

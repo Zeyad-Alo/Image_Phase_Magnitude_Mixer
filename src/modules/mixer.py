@@ -1,44 +1,73 @@
 # define class and related functions
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from scipy.fft import rfftfreq, rfft, irfft
 import numpy as np
+from sympy import fourier_transform
 from modules.utility import *
-from modules import spectrogram as spectro
 import PyQt5.QtCore
 import pyqtgraph as pg
 import pygame
 from PyQt5.QtWidgets import QMessageBox
 
+# frozen = True means that the class cannot be modified
+# kw_only = True means that the class cannot be instantiated with positional arguments
 
-@dataclass
+
+@dataclass(frozen=True, kw_only=True)
 class Image():
 
-    path: str
+    path: str = ''
     data: np.ndarray = None
-    image_height = 0
-    image_width = 0
-    fftdata: np.ndarray = None
-    fftfreq: np.ndarray = None
-    uniform_phase: np.ndarray = None
-    uniform_magnitude: np.ndarray = None
-    phase: np.ndarray = None
-    magnitude: np.ndarray = None
+    image_height: int = 0
+    image_width: int = 0
+    image_depth: int = 0
+    fourier_enable: bool = False
+    image_fft: ImageFFT = field(default_factory=ImageFFT)
 
-    def set_data(self, data):
-        self.data = data
-        # TODO: check if it makes sense to process the image here
-        # process_image(self)
+    def __post_init__(self):
+        self.update_parameters()
+        if (self.fourier_enable):
+            self.process_image()
+
+    def process_image(self):
+        pass
 
     def update_parameters(self):
         # TODO: calculate basic parameters (width, height, etc)
         pass
 
+# contains all the fourier transformed data of an image
+# on performs fft2 on initialization
+
+
+@dataclass(frozen=True, kw_only=True)
+class ImageFFT():
+
+    image: Image = field(default_factory=Image)
+    fftdata: np.ndarray = field(default_factory=np.ndarray)
+
+    fftfreq: np.ndarray = field(
+        init=False, default_factory=np.ndarray, repr=False)
+    uniform_phase: np.ndarray = field(
+        init=False, default_factory=np.ndarray, repr=False)
+    uniform_magnitude: np.ndarray = field(
+        init=False, default_factory=np.ndarray, repr=False)
+    phase: np.ndarray = field(
+        init=False, default_factory=np.ndarray, repr=False)
+    magnitude: np.ndarray = field(
+        init=False, default_factory=np.ndarray, repr=False)
+    real: np.ndarray = field(
+        init=False, default_factory=np.ndarray, repr=False)
+    imag: np.ndarray = field(
+        init=False, default_factory=np.ndarray, repr=False)
+
     def process_image(self):
+        # TODO: 2D fft??
         self.fftdata = rfft(self.data)
 
         # TODO: is this correct?
-        self.fftfreq = rfftfreq(self.data.size, 1 / 44100)
+        # self.fftfreq = rfftfreq(self.data.size, 1 / 44100)
         self.fftreal = np.real(self.fftdata)
         self.fftimag = np.imag(self.fftdata)
         self.fftmag = np.abs(self.fftdata)
@@ -47,27 +76,6 @@ class Image():
         # TODO: check if this is correct
         self.uniform_phase = np.multiply(self.fftmag, np.exp(1j))
         self.uniform_magnitude = np.multiply(1, np.exp(self.fftphase))
-
-    def get_real(self):
-        return self.fftreal
-
-    def get_imag(self):
-        return self.fftimag
-
-    def get_fft(self):
-        return self.fftdata
-
-    def get_fftfreq(self):
-        return self.fftfreq
-
-    def get_uniform_phase(self):
-        return self.uniform_phase
-
-    def get_uniform_magnitude(self):
-        return self.uniform_magnitude
-
-    def get_data(self):
-        return self.data
 
 
 @dataclass
@@ -88,7 +96,7 @@ class ImageConfiguration():
     def set_weight(self, weight):
         self.strength_percent = weight
 
-    def set_feature(self, feature):
+    def set_selected_feature(self, feature):
         if feature in self.selected_feature_dict:
             self.selected_feature = feature
             self.selected_feature_index = self.selected_feature_dict[feature]
@@ -155,7 +163,7 @@ class ImageMixer():
         pass
 
     def mix_images(self):
-        '''Mix images based on selected features'''
+        '''Mix images based on selected features in the frequency domain'''
 
         # if all is good then mix
 
@@ -165,5 +173,3 @@ class ImageMixer():
             + self.selected_images[1].get_processed_image())
 
 
-def update_display(self, display_idx: int):
-    pass
