@@ -106,12 +106,22 @@ QComboBox QAbstractItemView
                 </property>
                 <item>
                  <property name="text">
+                  <string>Phase</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
                   <string>Magnitude</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Phase</string>
+                  <string>Uniform Phase</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Uniform Magnitude</string>
                  </property>
                 </item>
                 <item>
@@ -122,6 +132,11 @@ QComboBox QAbstractItemView
                 <item>
                  <property name="text">
                   <string>Imaginary</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Full</string>
                  </property>
                 </item>
                </widget>
@@ -249,12 +264,22 @@ QComboBox QAbstractItemView
                 </property>
                 <item>
                  <property name="text">
+                  <string>Phase</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
                   <string>Magnitude</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Phase</string>
+                  <string>Uniform Phase</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Uniform Magnitude</string>
                  </property>
                 </item>
                 <item>
@@ -265,6 +290,11 @@ QComboBox QAbstractItemView
                 <item>
                  <property name="text">
                   <string>Imaginary</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Full</string>
                  </property>
                 </item>
                </widget>
@@ -650,12 +680,22 @@ QComboBox QAbstractItemView
                     </property>
                     <item>
                      <property name="text">
+                      <string>Phase</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
                       <string>Magnitude</string>
                      </property>
                     </item>
                     <item>
                      <property name="text">
-                      <string>Phase</string>
+                      <string>Uniform Phase</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Uniform Magnitude</string>
                      </property>
                     </item>
                     <item>
@@ -666,6 +706,11 @@ QComboBox QAbstractItemView
                     <item>
                      <property name="text">
                       <string>Imaginary</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Full</string>
                      </property>
                     </item>
                    </widget>
@@ -875,12 +920,22 @@ QComboBox QAbstractItemView
                     </property>
                     <item>
                      <property name="text">
+                      <string>Phase</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
                       <string>Magnitude</string>
                      </property>
                     </item>
                     <item>
                      <property name="text">
-                      <string>Phase</string>
+                      <string>Uniform Phase</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Uniform Magnitude</string>
                      </property>
                     </item>
                     <item>
@@ -891,6 +946,11 @@ QComboBox QAbstractItemView
                     <item>
                      <property name="text">
                       <string>Imaginary</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Full</string>
                      </property>
                     </item>
                    </widget>

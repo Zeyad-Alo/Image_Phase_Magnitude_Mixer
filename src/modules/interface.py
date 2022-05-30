@@ -3,12 +3,53 @@ from turtle import onrelease
 from PyQt5.QtWidgets import QTabWidget, QAction, QPushButton, QSlider, QComboBox, QLCDNumber, QMessageBox
 from PyQt5.QtGui import *
 from modules import openfile
+import numpy as np
+from PIL import Image as PILImage
+from PyQt5 import QtGui
+
 
 def update_display(self, display_keys=[]):
+    '''Updates multiple images in the ui'''
+    for display in display_keys:
+        if display == 'image1':
+            display_pixmap(
+                self, display, self.image1_configured.get_original_image())
+        if display == 'image1_component':
+            display_pixmap(
+                self, display, self.image1_configured.get_processed_image())
+        if display == 'image2':
+            display_pixmap(
+                self, display, self.image2_configured.get_original_image())
+        if display == 'image2_component':
+            display_pixmap(
+                self, display, self.image2_configured.get_processed_image())
+        # if display == 'output1':
+        #     display_pixmap(self, display, self.image1_configured.get_image_data())
+        # if display == 'output2':
+        #     display_pixmap(self, display, self.image1_configured.get_image_data())
 
-    for display in 
 
-    pass
+def display_pixmap(self, display_key: str = 'image1', image_data: np.array = []):
+    '''
+    Display the image data in a QPixmap given a key to the display_reference_dict
+    '''
+    if image_data.size == 0:
+        raise Warning("No image data to display")
+        return
+    if display_key in self.display_reference_dict:
+
+        # then convert it to image format
+        data = PILImage.fromarray(image_data)
+        # save the image file as png
+        data.save('temp.png')
+        # display saved image in Qpixmap
+
+        self.display_reference_dict[display_key].setPixmap(
+            QtGui.QPixmap("temp.png"))
+        self.display_reference_dict[display_key].show()
+    else:
+        raise Warning("Invalid display key")
+        return
 
 
 def init_connectors(self):
@@ -39,10 +80,25 @@ def init_connectors(self):
     self.insert_image2_pushButton.clicked.connect(
         lambda: openfile.browse_window(self, 2))
 
-    ''' Image Component Dropdowns'''
+    ''' Image Preview Component Dropdowns'''
     # 1. on index change
     # 2. change component in image configuration
     # 3. display image configuration component using pixmap?
+
+    self.image1_component_comboBox.currentIndexChanged.connect(
+        lambda: self.image1_configured.set_selected_feature(
+            index=self.image1_component_comboBox.currentIndex())
+    )
+    self.image2_component_comboBox.currentIndexChanged.connect(
+        lambda: self.image2_configured.set_selected_feature(
+            index=self.image2_component_comboBox.currentIndex())
+    )
+
+    self.image1_component_comboBox.currentIndexChanged.connect(
+        lambda: update_display(self, display_keys=['image1_component']))
+
+    self.image2_component_comboBox.currentIndexChanged.connect(
+        lambda: update_display(self, display_keys=['image2_component']))
 
     ''' Image Mixer'''
     # uses image configurations already made
@@ -50,25 +106,29 @@ def init_connectors(self):
     # TODO how to deal with image 1, image 1 for example, in the most efficient way?
 
     # TODO Add output selection functionality somewhere
-    #outside class function then refresh selected display
+    # outside class function then refresh selected display
     self.mixer_output_comboBox.currentIndexChanged.connect(
-        # lambda: ?? 
+        # lambda: ??
+        lambda: openfile.browse_window(self, 2)
     )
 
-    #inside class function then refresh display (from class info)
+    # inside class function then refresh display (from class info)
     self.mixer_component1_comboBox.currentIndexChanged.connect(
         # lambda: #change configuration's component from default to new index
+        lambda: openfile.browse_window(self, 2)
     )
     self.mixer_component2_comboBox.currentIndexChanged.connect(
         # change ?????????
+        lambda: openfile.browse_window(self, 2)
     )
-    self.mixer_component1_horizontalSlider.released.connect(
+    self.mixer_component1_horizontalSlider.sliderReleased.connect(
         # lambda: #change configuration's strength
+        lambda: openfile.browse_window(self, 2)
     )
-    self.mixer_component2_horizontalSlider.released.connect(
+    self.mixer_component2_horizontalSlider.sliderReleased.connect(
         # change configuration's strength
+        lambda: openfile.browse_window(self, 2)
     )
-
 
 
 def about_us(self):
