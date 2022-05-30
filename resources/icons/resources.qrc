@@ -1,5 +1,5 @@
 <RCC>
-  <qresource prefix="newPrefix">
+  <qresource prefix="/icons">
     <file>hide.png</file>
     <file>show.png</file>
     <file>Arrowhead-nottop-256.png</file>

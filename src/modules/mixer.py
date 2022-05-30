@@ -6,8 +6,6 @@ import numpy as np
 from sympy import fourier_transform
 from modules.utility import *
 import PyQt5.QtCore
-import pyqtgraph as pg
-import pygame
 from PyQt5.QtWidgets import QMessageBox
 
 # frozen = True means that the class cannot be modified

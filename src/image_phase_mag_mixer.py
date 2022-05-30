@@ -2,9 +2,9 @@
 
 from PyQt5 import QtGui, QtWidgets, uic, QtCore
 from PyQt5.QtWidgets import QTabWidget
-# from modules import interface, resource
-# import numpy as np
-# from modules.utility import print_debug, print_log
+from modules import resources, interface
+import numpy as np
+from modules.utility import print_debug, print_log
 import sys
 
 
@@ -23,8 +23,19 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # initialize arrays and variables
 
-        # interface.init_connectors(self)
-        # print_debug("Connectors Initialized")
+        interface.init_connectors(self)
+
+        # dictionary containing all image display labels in ui
+        self.display_reference_dict = {
+            'image1': self.image1_widget,
+            'image1_component': self.image1_component_widget,
+            'image2': self.image2_widget,
+            'image2_component': self.image2_component_widget,
+            'output1': self.output1_widget,
+            'output2': self.output2_widget,
+        }
+
+        print_debug("Connectors Initialized")
 
 
 def main():
