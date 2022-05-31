@@ -3,6 +3,7 @@ from turtle import onrelease
 from PyQt5.QtWidgets import QTabWidget, QAction, QPushButton, QSlider, QComboBox, QLCDNumber, QMessageBox
 from PyQt5.QtGui import *
 from modules import openfile
+from modules import mixer
 import numpy as np
 from PIL import Image as PILImage
 from PyQt5 import QtGui
@@ -23,10 +24,10 @@ def update_display(self, display_keys=[]):
         if display == 'image2_component':
             display_pixmap(
                 self, display, self.image2_configured.get_processed_image())
-        # if display == 'output1':
-        #     display_pixmap(self, display, self.image1_configured.get_image_data())
-        # if display == 'output2':
-        #     display_pixmap(self, display, self.image1_configured.get_image_data())
+        if display == 'output1':
+            display_pixmap(self, display, self.mixer.get_mixed_image_data())
+        if display == 'output2':
+            display_pixmap(self, display, self.mixer.get_mixed_image_data())
 
 
 def display_pixmap(self, display_key: str = 'image1', image_data: np.array = []):
@@ -108,26 +109,29 @@ def init_connectors(self):
     # TODO Add output selection functionality somewhere
     # outside class function then refresh selected display
     self.mixer_output_comboBox.currentIndexChanged.connect(
-        # lambda: ??
-        lambda: openfile.browse_window(self, 2)
+        lambda: mixer.update_mixer(self)
     )
 
     # inside class function then refresh display (from class info)
     self.mixer_component1_comboBox.currentIndexChanged.connect(
-        # lambda: #change configuration's component from default to new index
-        lambda: openfile.browse_window(self, 2)
+        lambda: mixer.update_mixer(self)
     )
     self.mixer_component2_comboBox.currentIndexChanged.connect(
-        # change ?????????
-        lambda: openfile.browse_window(self, 2)
+        lambda: mixer.update_mixer(self)
     )
+
+    self.mixed_component1_comboBox.currentIndexChanged.connect(
+        lambda: mixer.update_mixer(self)
+    )
+    self.mixed_component2_comboBox.currentIndexChanged.connect(
+        lambda: mixer.update_mixer(self)
+    )
+
     self.mixer_component1_horizontalSlider.sliderReleased.connect(
-        # lambda: #change configuration's strength
-        lambda: openfile.browse_window(self, 2)
+        lambda: mixer.update_mixer(self)
     )
     self.mixer_component2_horizontalSlider.sliderReleased.connect(
-        # change configuration's strength
-        lambda: openfile.browse_window(self, 2)
+        lambda: mixer.update_mixer(self)
     )
 
 

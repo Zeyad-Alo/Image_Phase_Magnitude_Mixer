@@ -1,11 +1,13 @@
 # define class and related functions
 from copy import copy, deepcopy
 from dataclasses import dataclass, field
+from msilib.schema import Component
 from typing import ClassVar
-from scipy.fft import fftfreq, fft, ifft, fft2, ifft2, fftn, ifftn
+from scipy.fft import fftfreq, rfftn, irfftn, fft2, ifft2, fftn, ifftn
 import numpy as np
 from sympy import fourier_transform
 from modules.utility import *
+from modules import interface
 import PyQt5.QtCore
 from PyQt5.QtWidgets import QMessageBox
 
@@ -33,21 +35,22 @@ class ImageFFT():
 
     def process_image(self):
         # TODO: 2D fft??
-        self.fftdata = fftn(self.image_data)
+        self.fftdata = rfftn(self.image_data)
 
         # TODO: is this correct?
         # self.fftfreq = fftfreq(self.data.size, 1 / 44100)
         self.fftreal = np.real(self.fftdata)
         self.fftimag = np.imag(self.fftdata)
         self.fftmag = np.abs(self.fftdata)
-        self.fftphase = np.angle(self.fftdata)
+        self.fftphase = np.exp(np.multiply(1j, np.angle(self.fftdata)))
 
         # TODO: check if this is correct
-        self.uniform_phase = np.multiply(self.fftmag, np.exp(1j))
-        self.uniform_magnitude = np.multiply(1, np.exp(self.fftphase))
+        self.uniform_phase = np.exp(
+            np.multiply(1j, np.zeros_like(self.fftdata)))
+        self.uniform_magnitude = np.ones_like(self.fftdata)
 
 
-@dataclass()
+@ dataclass
 class Image():
 
     data: np.ndarray  # required on init
@@ -72,10 +75,13 @@ class Image():
         self.image_width = self.data.shape[1]
         self.image_depth = self.data.shape[2]
 
+    def get_image_data(self):
+        return self.data
+
 
 # contains all the fourier transformed data of an image
 # on performs fft2 on initialization
-@dataclass
+@ dataclass
 class ImageConfiguration():
     image: Image
     selected_feature: str = "Full"
@@ -124,10 +130,7 @@ class ImageConfiguration():
     def get_original_image(self):
         return self.image.data
 
-    def get_processed_image(self):
-        '''Selects image based on required feature then \n
-        internaly weighs images based on the strength_percent'''
-
+    def get_selected_in_ft(self):
         if(self.selected_feature == "Phase"):
             image = copy(self.image.image_fft.fftphase)
         elif(self.selected_feature == "Magnitude"):
@@ -145,47 +148,138 @@ class ImageConfiguration():
         else:
             raise Exception("Invalid Feature")
 
+        return image
+
+    def get_weighted_in_ft(self):
+        # TODO add phase weighting in uniform magnitude ??
+        # Phase special case weighting
+        if self.selected_feature == "Phase":
+            weighted_phase = np.exp(1j * np.angle(
+                self.image.image_fft.fftdata)* self.strength_percent/100)
+            return weighted_phase
+        else:
+            return self.get_selected_in_ft() * self.strength_percent / 100
+
+    def get_processed_image(self):
+        '''Selects image based on required feature then \n
+        internaly weighs images based on the strength_percent'''
+
+        image = self.get_selected_in_ft()
         # modify magnitude component and restore phase
         # weighted_image_fft = np.multiply(np.multiply(np.abs(
         #     image), self.strength_percent / 100), np.exp(np.multiply(np.angle(image), 1j)))
 
         # TODO: convert from FFT coefficients to image after applying weights
-        weighted_image = ifftn(
-            image * self.strength_percent/100).astype(np.uint8)
+        weighted_image = irfftn(self.get_weighted_in_ft()).astype(np.uint8)
 
         return weighted_image
 
 
 class ImageMixer():
-    def __init__(self, image_1: Image, image_2: Image) -> None:
-        self.input_images = [image_1, image_2]
-        self.selected_images = [ImageConfiguration(
-            image_1), ImageConfiguration(image_2)]
-        self.preview_images = [Image(), Image()]
-        self.output_images = [Image(), Image()]
-        self.mixed_image = Image()
+    def __init__(self, selection1: ImageConfiguration = None,
+                 selection2: ImageConfiguration = None) -> None:
+        self.selected_images = [deepcopy(selection1), deepcopy(selection2)]
+        self.mixed_image: Image = None
 
-    def reset_selection(self):
-        '''Reset image selections'''
-        self.input_images[0].reset_selection()
+    def set_selection_feature(self, selection_index: int, feature_idx: int):
+        self.selected_images[selection_index].set_selected_feature(
+            index=feature_idx)
 
-    # TODO: dont forget image size check
-    def set_input_image(self, image: Image, image_idx):
-        self.input_images[image_idx] = image
-        self.selected_images[image_idx].image = image
-
-    def set_selected_feature(self, idx, feature):
-        self.selected_images[idx].set_feature(feature)
-
-    def set_selected_image(self, idx, feature):
-        pass
+    def set_selection_weight(self, selection_index: int, weight: int):
+        self.selected_images[selection_index].set_weight(weight)
 
     def mix_images(self):
         '''Mix images based on selected features in the frequency domain'''
 
         # if all is good then mix
+        temp1 = self.selected_images[0].get_weighted_in_ft()
+        temp2 = self.selected_images[1].get_weighted_in_ft()
 
-        # additive weighted mixing
-        self.mixed_image.set_data(
-            self.selected_images[0].get_processed_image()
-            + self.selected_images[1].get_processed_image())
+        # if temp1.selected_feature == "Phase" and temp2.selected_feature == "Phase":
+        # mixed_image = np.multiply(temp1, temp2)
+        # additive weighted mixing for imag , real
+
+        if (self.selected_images[0].selected_feature and
+                self.selected_images[1].selected_feature in ["Phase", "Magnitude"]):
+            mixed_image = np.multiply(temp1, temp2)
+        elif (self.selected_images[0].selected_feature and self.selected_images[1].selected_feature in ["Imaginary", "Real"]):
+            mixed_image = np.add(temp1, temp2)
+        else:
+            # TODO this should not exist
+            mixed_image = np.add(temp1, temp2)
+            print("Invalid Feature Combination")
+
+        mixed_image_data = np.real(
+            irfftn(mixed_image)).astype(np.uint8)
+
+        self.mixed_image = Image(data=mixed_image_data)
+
+    def get_mixed_image_data(self):
+        return self.mixed_image.data
+
+# TODO increase class responsibilities
+
+
+def update_mixer(self):
+    '''Component 1'''
+    # selected image from dropdown
+    selection1_idx = self.mixer_component1_comboBox.currentIndex()
+    # selected feature from dropdown
+    selection1_feature_idx = self.mixed_component1_comboBox.currentIndex()
+    # strength slider
+    selection1_weight = self.mixer_component1_horizontalSlider.value()
+
+    '''Component 2'''
+    # selected image from dropdown
+    selection2_idx = self.mixer_component2_comboBox.currentIndex()
+    # selected feature from dropdown
+    selection2_feature_idx = self.mixed_component2_comboBox.currentIndex()
+    # strength slider
+    selection2_weight = self.mixer_component2_horizontalSlider.value()
+
+    # check if selected images exist
+    if ((selection1_idx == 0) or (selection2_idx == 0)) and (self.image1_configured == None):
+        print_debug("Image 1 does not exist, aborting...")
+        return
+    if ((selection1_idx == 1) or (selection2_idx == 1)) and (self.image2_configured == None):
+        print_debug("Image 2 does not exist, aborting...")
+        return
+
+    # set selected image local references
+    if selection1_idx == 0:
+        selection1 = self.image1_configured
+    elif selection1_idx == 1:
+        selection1 = self.image2_configured
+    if selection2_idx == 0:
+        selection2 = self.image1_configured
+    elif selection2_idx == 1:
+        selection2 = self.image2_configured
+
+    # check if both selections are equal in size
+    if selection1.image.data.shape != selection2.image.data.shape:
+        print_debug("Images are not of same size, aborting...")
+        # raise Exception("Images are not of equal size")
+        return
+
+    # reinitialize mixer using copies of selected images (done internally in init)
+    self.mixer = ImageMixer(selection1, selection2)
+    self.mixer.set_selection_feature(0, selection1_feature_idx)
+    self.mixer.set_selection_feature(1, selection2_feature_idx)
+
+    # set weights
+    self.mixer.set_selection_weight(0, selection1_weight)
+    self.mixer.set_selection_weight(1, selection2_weight)
+
+    # mix images
+    self.mixer.mix_images()
+
+    # selected output label dropdown
+    output_idx = self.mixer_output_comboBox.currentIndex()
+
+    # update selected output
+    if output_idx == 0:
+        interface.update_display(self, display_keys=["output1"])
+    elif output_idx == 1:
+        interface.update_display(self, display_keys=["output2"])
+
+    pass

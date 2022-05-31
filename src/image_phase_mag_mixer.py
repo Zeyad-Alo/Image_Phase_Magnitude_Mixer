@@ -28,6 +28,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.image1_configured: ImageConfiguration = None
         self.image2_configured: ImageConfiguration = None
+        self.mixer: ImageMixer = None
 
         # dictionary containing all image display labels in ui
         self.display_reference_dict = {
