@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from dataclasses import dataclass, field
 from msilib.schema import Component
 from typing import ClassVar
-from scipy.fft import fftfreq, rfftn, irfftn, fft2, ifft2, fftn, ifftn
+from scipy.fft import fftfreq, rfftn, irfftn, fft2, ifft2, fftn, ifftn, fftshift
 import numpy as np
 from sympy import fourier_transform
 from modules.utility import *
@@ -45,9 +45,8 @@ class ImageFFT():
         self.fftphase = np.exp(np.multiply(1j, np.angle(self.fftdata)))
 
         # TODO: check if this is correct
-        self.uniform_phase = np.exp(
-            np.multiply(1j, np.zeros_like(self.fftdata)))
-        self.uniform_magnitude = np.ones_like(self.fftdata)
+        self.uniform_phase = self.fftmag * np.exp(0)
+        self.uniform_magnitude = 100 * self.fftphase
 
 
 @ dataclass
@@ -91,11 +90,15 @@ class ImageConfiguration():
     selected_feature_dict: ClassVar[dict] = {
         "Phase": 0,
         "Magnitude": 1,
-        "Uniform_Phase": 2,
-        "Uniform_Magnitude": 3,
+        "Uniform Phase": 2,
+        "Uniform Magnitude": 3,
         "Real": 4,
         "Imaginary": 5,
-        "Full": 6
+        "Full": 6,
+        "FT Magnitude": 7,
+        "FT Phase": 8,
+        "FT Real": 9,
+        "FT Imaginary": 10
     }
     ''' Global to all class instances'''
 
@@ -130,18 +133,19 @@ class ImageConfiguration():
     def get_original_image(self):
         return self.image.data
 
+    # my sincerest apologies for this function
     def get_selected_in_ft(self):
         if(self.selected_feature == "Phase"):
             image = copy(self.image.image_fft.fftphase)
         elif(self.selected_feature == "Magnitude"):
             image = copy(self.image.image_fft.fftmag)
-        elif(self.selected_feature == "Uniform_Phase"):
+        elif(self.selected_feature in ["Uniform Phase", "FT Magnitude"]):
             image = copy(self.image.image_fft.uniform_phase)
-        elif(self.selected_feature == "Uniform_Magnitude"):
+        elif(self.selected_feature in ["Uniform Magnitude", "FT Phase"]):
             image = copy(self.image.image_fft.uniform_magnitude)
-        elif(self.selected_feature == "Real"):
+        elif(self.selected_feature in ["Real", "FT Real"]):
             image = copy(self.image.image_fft.fftreal)
-        elif(self.selected_feature == "Imaginary"):
+        elif(self.selected_feature in ["Imaginary", "FT Imaginary"]):
             image = copy(self.image.image_fft.fftimag)
         elif(self.selected_feature == "Full"):
             image = copy(self.image.image_fft.fftdata)
@@ -155,10 +159,21 @@ class ImageConfiguration():
         # Phase special case weighting
         if self.selected_feature == "Phase":
             weighted_phase = np.exp(1j * np.angle(
-                self.image.image_fft.fftdata)* self.strength_percent/100)
+                self.image.image_fft.fftdata) * self.strength_percent/100)
             return weighted_phase
         else:
             return self.get_selected_in_ft() * self.strength_percent / 100
+
+    def get_ft_plot(self):
+        if self.selected_feature in ["FT Phase"]:
+            return np.real(
+                fftshift(self.get_selected_in_ft())).astype(np.uint8)
+        elif self.selected_feature in ["FT Magnitude", "FT Real", "FT Imaginary"]:
+            return np.multiply(np.log10(np.abs(
+                fftshift(self.get_selected_in_ft()))), 20).astype(np.uint8)
+        else:
+            print_debug("Invalid FT Feature")
+            return self.get_selected_in_ft().astype(np.uint8)
 
     def get_processed_image(self):
         '''Selects image based on required feature then \n
@@ -181,9 +196,13 @@ class ImageMixer():
         self.selected_images = [deepcopy(selection1), deepcopy(selection2)]
         self.mixed_image: Image = None
 
-    def set_selection_feature(self, selection_index: int, feature_idx: int):
-        self.selected_images[selection_index].set_selected_feature(
-            index=feature_idx)
+    def set_selection_feature(self, selection_index: int, feature_idx: int = None, feature_name: str = None):
+        if feature_idx == None:
+            self.selected_images[selection_index].set_selected_feature(
+                feature=feature_name)
+        else:
+            self.selected_images[selection_index].set_selected_feature(
+                index=feature_idx)
 
     def set_selection_weight(self, selection_index: int, weight: int):
         self.selected_images[selection_index].set_weight(weight)
@@ -225,7 +244,7 @@ def update_mixer(self):
     # selected image from dropdown
     selection1_idx = self.mixer_component1_comboBox.currentIndex()
     # selected feature from dropdown
-    selection1_feature_idx = self.mixed_component1_comboBox.currentIndex()
+    selection1_feature_idx = self.mixed_component1_comboBox.currentText()
     # strength slider
     selection1_weight = self.mixer_component1_horizontalSlider.value()
 
@@ -233,7 +252,7 @@ def update_mixer(self):
     # selected image from dropdown
     selection2_idx = self.mixer_component2_comboBox.currentIndex()
     # selected feature from dropdown
-    selection2_feature_idx = self.mixed_component2_comboBox.currentIndex()
+    selection2_feature_idx = self.mixed_component2_comboBox.currentText()
     # strength slider
     selection2_weight = self.mixer_component2_horizontalSlider.value()
 
@@ -263,8 +282,8 @@ def update_mixer(self):
 
     # reinitialize mixer using copies of selected images (done internally in init)
     self.mixer = ImageMixer(selection1, selection2)
-    self.mixer.set_selection_feature(0, selection1_feature_idx)
-    self.mixer.set_selection_feature(1, selection2_feature_idx)
+    self.mixer.set_selection_feature(0, feature_name=selection1_feature_idx)
+    self.mixer.set_selection_feature(1, feature_name=selection2_feature_idx)
 
     # set weights
     self.mixer.set_selection_weight(0, selection1_weight)

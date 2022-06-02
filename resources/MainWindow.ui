@@ -106,37 +106,22 @@ QComboBox QAbstractItemView
                 </property>
                 <item>
                  <property name="text">
-                  <string>Phase</string>
+                  <string>FT Magnitude</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Magnitude</string>
+                  <string>FT Phase</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Uniform Phase</string>
+                  <string>FT Real</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Uniform Magnitude</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Real</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Imaginary</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Full</string>
+                  <string>FT Imaginary</string>
                  </property>
                 </item>
                </widget>
@@ -264,37 +249,22 @@ QComboBox QAbstractItemView
                 </property>
                 <item>
                  <property name="text">
-                  <string>Phase</string>
+                  <string>FT Magnitude</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Magnitude</string>
+                  <string>FT Phase</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Uniform Phase</string>
+                  <string>FT Real</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Uniform Magnitude</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Real</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Imaginary</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Full</string>
+                  <string>FT Imaginary</string>
                  </property>
                 </item>
                </widget>

@@ -2,6 +2,7 @@
 from turtle import onrelease
 from PyQt5.QtWidgets import QTabWidget, QAction, QPushButton, QSlider, QComboBox, QLCDNumber, QMessageBox
 from PyQt5.QtGui import *
+from scipy.fft import fftshift
 from modules import openfile
 from modules import mixer
 import numpy as np
@@ -17,13 +18,13 @@ def update_display(self, display_keys=[]):
                 self, display, self.image1_configured.get_original_image())
         if display == 'image1_component':
             display_pixmap(
-                self, display, self.image1_configured.get_processed_image())
+                self, display,  self.image1_configured.get_ft_plot())
         if display == 'image2':
             display_pixmap(
                 self, display, self.image2_configured.get_original_image())
         if display == 'image2_component':
             display_pixmap(
-                self, display, self.image2_configured.get_processed_image())
+                self, display, self.image2_configured.get_ft_plot())
         if display == 'output1':
             display_pixmap(self, display, self.mixer.get_mixed_image_data())
         if display == 'output2':
@@ -88,11 +89,11 @@ def init_connectors(self):
 
     self.image1_component_comboBox.currentIndexChanged.connect(
         lambda: self.image1_configured.set_selected_feature(
-            index=self.image1_component_comboBox.currentIndex())
+            feature=self.image1_component_comboBox.currentText())
     )
     self.image2_component_comboBox.currentIndexChanged.connect(
         lambda: self.image2_configured.set_selected_feature(
-            index=self.image2_component_comboBox.currentIndex())
+            feature=self.image2_component_comboBox.currentText())
     )
 
     self.image1_component_comboBox.currentIndexChanged.connect(
