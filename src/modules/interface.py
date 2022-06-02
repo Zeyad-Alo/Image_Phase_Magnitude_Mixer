@@ -41,7 +41,7 @@ def display_pixmap(self, display_key: str = 'image1', image_data: np.array = [])
     if display_key in self.display_reference_dict:
 
         # then convert it to image format
-        data = PILImage.fromarray(image_data)
+        data = PILImage.fromarray(image_data.astype(np.uint8))
         # save the image file as png
         data.save('temp.png')
         # display saved image in Qpixmap

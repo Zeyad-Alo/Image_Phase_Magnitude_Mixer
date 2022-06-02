@@ -34,10 +34,8 @@ class ImageFFT():
         self.process_image()
 
     def process_image(self):
-        # TODO: 2D fft??
         self.fftdata = rfftn(self.image_data)
 
-        # TODO: is this correct?
         # self.fftfreq = fftfreq(self.data.size, 1 / 44100)
         self.fftreal = np.real(self.fftdata)
         self.fftimag = np.imag(self.fftdata)
@@ -167,13 +165,13 @@ class ImageConfiguration():
     def get_ft_plot(self):
         if self.selected_feature in ["FT Phase"]:
             return np.real(
-                fftshift(self.get_selected_in_ft())).astype(np.uint8)
+                fftshift(self.get_selected_in_ft()))
         elif self.selected_feature in ["FT Magnitude", "FT Real", "FT Imaginary"]:
             return np.multiply(np.log10(np.abs(
-                fftshift(self.get_selected_in_ft()))), 20).astype(np.uint8)
+                fftshift(self.get_selected_in_ft()))), 20)
         else:
             print_debug("Invalid FT Feature")
-            return self.get_selected_in_ft().astype(np.uint8)
+            return self.get_selected_in_ft()
 
     def get_processed_image(self):
         '''Selects image based on required feature then \n
@@ -185,7 +183,7 @@ class ImageConfiguration():
         #     image), self.strength_percent / 100), np.exp(np.multiply(np.angle(image), 1j)))
 
         # TODO: convert from FFT coefficients to image after applying weights
-        weighted_image = irfftn(self.get_weighted_in_ft()).astype(np.uint8)
+        weighted_image = irfftn(self.get_weighted_in_ft())
 
         return weighted_image
 
@@ -219,17 +217,17 @@ class ImageMixer():
         # additive weighted mixing for imag , real
 
         if (self.selected_images[0].selected_feature and
-                self.selected_images[1].selected_feature in ["Phase", "Magnitude"]):
+                self.selected_images[1].selected_feature in ["Phase", "Magnitude", "Uniform Phase", "Uniform Magnitude"]):
             mixed_image = np.multiply(temp1, temp2)
-        elif (self.selected_images[0].selected_feature and self.selected_images[1].selected_feature in ["Imaginary", "Real"]):
+        elif (self.selected_images[0].selected_feature and self.selected_images[1].selected_feature in ["Imaginary", "Real", "Full"]):
             mixed_image = np.add(temp1, temp2)
         else:
             # TODO this should not exist
             mixed_image = np.add(temp1, temp2)
-            print("Invalid Feature Combination")
+            print("Invalid Feature Combination in Mixer")
 
-        mixed_image_data = np.real(
-            irfftn(mixed_image)).astype(np.uint8)
+        mixed_image_data = np.abs(
+            irfftn(mixed_image))
 
         self.mixed_image = Image(data=mixed_image_data)
 
