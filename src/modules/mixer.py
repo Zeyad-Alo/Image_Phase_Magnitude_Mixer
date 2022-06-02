@@ -220,6 +220,11 @@ class ImageMixer():
                 self.selected_images[1].selected_feature in ["Phase", "Magnitude", "Uniform Phase", "Uniform Magnitude"]):
             mixed_image = np.multiply(temp1, temp2)
         elif (self.selected_images[0].selected_feature and self.selected_images[1].selected_feature in ["Imaginary", "Real", "Full"]):
+            if self.selected_images[0].selected_feature == "Imaginary":
+                temp1 = np.multiply(temp1, 1j)
+            elif self.selected_images[1].selected_feature == "Imaginary":
+                temp2 = np.multiply(temp2, 1j)
+
             mixed_image = np.add(temp1, temp2)
         else:
             # TODO this should not exist

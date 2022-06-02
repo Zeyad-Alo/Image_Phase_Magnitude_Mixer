@@ -7,8 +7,8 @@
 * Visualize the effect of prescence of different components
 
 ## Preview
- 
-![image](./preview.png)
+
+![animation](./preview.gif)
 
 ## Contributors
 
