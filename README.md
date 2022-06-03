@@ -1,5 +1,7 @@
 # Image Component Mixer
 
+Demonstrates the mixing of different images and their various components
+
 ## Features
 
 * Analyze and combine images
